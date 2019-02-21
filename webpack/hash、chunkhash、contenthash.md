@@ -1,0 +1,9 @@
+# hash、chunkhash、contenthash
+
+hash：在webpack中有个compilation 对象，对随时可变的项目文件创建一段编码，只要源文件有改动，编码会重新创建。缺点是这个编码是公共的。因为webpack从入口文件开始打包，途中会把同步或异步加载的文件/css静态资源文件（使用styled-components除外，因为其会被打包到js里边）全部打包到js文件内，即使我们使用插件将打包后的css分离、optimization.splitChuksPlugin将异步文件/公共代码剥离出来，它们都会和entry文件打包后的hash一样，形成连体。如果某个文件有改动，那么这么多的文件hash值会全部更改。怎么让分离出来的js文件/css文件的hash值具有独立性呢？需要使用chunkhash和contenthash。
+
+chunkhash：模块的hash值。这个范围压缩到模块，也就是会把异步打包出来的chunk和split出来的chunk各有独一的hash值，大家互不干扰。修改其中一个文件，不影响其他文件的缓存。
+
+contenthash：上面的chunkhash对js文件有唯一的hash，但是从js文件剥离出来的css文件默认会和js文件具有一样的hash值，这就导致一个问题，该变了某个js文件的内容，那么它引入的css文件打包的hash值也会改变。这个就得靠contenthash解决啦。对css父文件也就是js文件打包时使用chunkhash，对css文件打包时使用contenthash。
+
+链接：https://juejin.im/post/5a4502be6fb9a0450d1162ed
