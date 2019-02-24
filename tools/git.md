@@ -116,6 +116,9 @@ $ git branch -d [branch-name]
 # 删除远端某个分支
 $ git push origin -d [branch-name]
 
+# 分支重命名
+$ git branch -m old-name new-name
+
 ```
 
 ## 查看信息

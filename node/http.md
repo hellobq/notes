@@ -36,7 +36,7 @@ server.listen(3000, () => console.log('server start at 3000!'))
 
 ## http.IncomingMessage类
 
-[http.IncomingMessage](http://nodejs.cn/api/http.html#http_class_http_incomingmessage) 用来获取请求消息头和数据。
+[http.IncomingMessage](http://nodejs.cn/api/http.html#http_class_http_incomingmessage) 实例（可读流）用来获取请求消息头和数据。
 
 req.url: 请求地址
 
@@ -48,7 +48,7 @@ req.method: 请求方法
 
 ## http.ServerResponse类
 
-[http.ServerResponse](http://nodejs.cn/api/http.html#http_class_http_serverresponse)是由服务器创建的响应对象，在[“request”](http://nodejs.cn/api/http.html#http_event_request)事件中，位于第二个参数。用来相应服务，设置响应头等。
+[http.ServerResponse](http://nodejs.cn/api/http.html#http_class_http_serverresponse)是由服务器创建的响应对象（可写流），在[“request”](http://nodejs.cn/api/http.html#http_event_request)事件中，位于第二个参数。用来相应服务，设置响应头等。
 
 ``` js
 // 设置响应头
