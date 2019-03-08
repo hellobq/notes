@@ -6,7 +6,7 @@ export/import
 
 module.exports/require
 
-#### 2. esModule 模块导出时是值的引用，commonJs 模块导出时是值的拷贝。
+#### 2. 对于基本数据类型的变量（引用数据类型相同），esModule 模块输出的是值的引用，commonJs 模块输出的是值的拷贝。
 
 commonJS 导出的模块：
 
