@@ -255,6 +255,12 @@ dist/**/*.js
 
 ## 踩一踩
 
+### .gitignore 无效
+
+对于已经 track 且有改动的文件，添加 .gitignore 是无效的。需要先删除本地缓存。
+
+    git rm -r --cached .
+
 ### git无法pull仓库: refusing to merge unrelated histories
 
 对于已经存在的仓库，里边有个已定的项目。如果某天你不要这个项目，你可以：
