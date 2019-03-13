@@ -1,6 +1,6 @@
 # http
 
-[http](http://nodejs.cn/api/http.html#http_http)是node的内置模块，负责前后台通讯服务。http模块内置多个类，每个类封装了各种方法。
+[http](http://nodejs.cn/api/http.html#http_http) 是node的内置模块，负责前后台通讯服务。http模块内置多个类，每个类封装了各种方法。
 
 ## demo
 
