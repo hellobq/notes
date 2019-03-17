@@ -74,12 +74,32 @@ function postForm() {
   
   fetch(`/api/user/${name}`, {
     method: 'POST',
+
+    // 使用这种格式，需要序列化 form data
     headers: {
       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
     },
     body: new FormData(form)
   })
 }
+
+fetch('http://localhost:4321/api/registry', {
+  method: 'POST',
+
+  // 使用这种内容格式，不需要序列化  request payload
+  headers: {
+    "Content-type": "application/json"
+  },
+  body: JSON.stringify({
+    1: 2,
+    3: 4
+  })
+}) 
+  .then(data => data.json())
+  .then(json => {
+    console.log(json)
+  }) 
+  .catch(err => {})
 ```
 
 ## fetch 注意事项
