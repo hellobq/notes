@@ -24,6 +24,10 @@ const server = http.createServer(async (req, res) => {
     fs.readFile(__dirname + '/index.html', { encoding: 'utf8' }, (err, data) => {
       if (err) {
         console.log('文件不存在...', err)
+        res.writeHead(404, 'no found', {
+          'Content-Type': 'text/html'
+        })
+        res.end()
       }
       res.writeHead(200, {
         'Content-Type': 'text/html'
@@ -32,10 +36,14 @@ const server = http.createServer(async (req, res) => {
     })
   }
 
-  if (req.url === '/a.js') {
-    fs.readFile(__dirname + '/a.js', { encoding: 'utf8' }, (err, data) => {
+  if (req.url === '/b.js') {
+    fs.readFile(__dirname + '/b.js', { encoding: 'utf8' }, (err, data) => {
       if (err) {
         console.log('文件不存在...', err)
+        res.writeHead(404, 'no found', {
+          'Content-Type': 'application/javascript'
+        })
+        res.end()
       }
       res.writeHead(200, {
         'Content-Type': 'application/javascript'
@@ -48,6 +56,10 @@ const server = http.createServer(async (req, res) => {
     fs.readFile(__dirname + '/avatar.7s92.jpg', (err, data) => {
       if (err) {
         console.log('文件不存在...', err)
+        res.writeHead(404, 'no found', {
+          'Content-Type': 'image/jpg'
+        })
+        res.end()
       }
       res.writeHead(200, {
         'Content-Type': 'image/jpg'
@@ -60,6 +72,10 @@ const server = http.createServer(async (req, res) => {
     fs.readFile(__dirname + '/favicon.ico', (err, data) => {
       if (err) {
         console.log('文件不存在...', err)
+        res.writeHead(404, 'no found', {
+          'Content-Type': 'image/x-icon'
+        })
+        res.end()
       }
       res.writeHead(200, {
         'Content-Type': 'image/x-icon'
