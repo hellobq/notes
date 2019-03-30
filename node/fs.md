@@ -1,6 +1,6 @@
 # fs
 
-[fs](http://nodejs.cn/api/fs.html#fs_file_system)是node的内置模块，有同步和异步的操作。
+[fs](http://nodejs.cn/api/fs.html#fs_file_system) 是 node 的内置文件模块，包括同步/异步。
 
 ## fs.Stats类
 
@@ -153,19 +153,15 @@ try {
 
 异步地将数据写在文件内，如果文件存在则覆盖原来的内容。语法如下：
 
-``` js
-fs.writeFile(path, data[, opts], callback)
+    fs.writeFile(path, data[, opts], callback)
 
-opts: 对象。有个选项encoding，规定以什么编码方式写文件内容。默认"utf8"，如果是data是Buffer，则忽略encoding选项。
+    opts: 对象。有个选项encoding，规定以什么编码方式写文件内容。默认"utf8"，如果是data是Buffer，则忽略encoding选项。
 
-fs.writeFile(__dirname + '/demo.txt', 'hjsa 婚纱', err => {
-  if (err) {
-    console.log('文件不存在，不能写入...')
-  }
-
-  // ...
-})
-```
+    fs.writeFile(__dirname + '/demo.txt', 'hjsa 婚纱', err => {
+      if (err) {
+        console.log('文件不存在，不能写入...')
+      }
+    })
 
 ## fs.writeFileSync()
 
@@ -181,7 +177,7 @@ try {
 }
 ```
 
-## fs.appendFile()/fs.appendFileSync()
+## fs.appendFile() / fs.appendFileSync()
 
 参数格式同上两者，异步/同步地向文件中追加内容，而不是直接覆盖。
 
@@ -189,69 +185,61 @@ try {
 
 异步地读目录，语法如下：
 
-``` js
-fs.readdir(path[, opts], callback)
+    fs.readdir(path[, opts], callback)
 
-callback: funciton (err, files)
+    callback: funciton (err, files)
 
-fs.readdir(__dirname + '/src', (err, files) => {
-  if (err) {
-    console.error('目录不存在...')
-  }
-  console.log('文件名（可能包含文件夹）组成的数组为：', files)
-})
+    fs.readdir(__dirname + '/src', (err, files) => {
+      if (err) {
+        console.error('目录不存在...')
+      }
+      console.log('文件名（可能包含文件夹）组成的数组为：', files)
+    })
 
-文件夹的名字也会在files数组内。当前目录没子文件的话，files为空数组。
-
-```
+    // 文件夹的名字也会在 files 数组内。当前目录没子文件的话，files为空数组。
 
 ## fs.readdirSync()
 
 同步地读目录内容，语法如下：
 
-``` js
-fs.readdirSync(path[,opts])
+    fs.readdirSync(path[,opts])
 
-try {
-  const files = fs.readdirSync(__dirname + '/src')
-  console.log('文件名（可能包含文件夹）组成的数组为：', files)
-} catch(e) {
-  console.error('目录不存在...')
-}
-```
+    try {
+      const files = fs.readdirSync(__dirname + '/src')
+      console.log('文件名（可能包含文件夹）组成的数组为：', files)
+    } catch(e) {
+      console.error('目录不存在...')
+    }
 
 ## fs.readFile()
 
 异步地读文件的全部内容，语法如下：
 
-``` js
-fs.readFile(path[, opts], callback)
+    fs.readFile(path[, opts], callback)
 
-callback: function (err, data<string|Buffer>)
-opts.encoding: 默认为null，data为Buffer；指定了则返回string
+    callback: function (err, data<string|Buffer>)
+    
+    // opts.encoding: 默认为 null，data 为 Buffer；指定了则返回 string
 
-fs.readFile(__dirname + '/demo.txt', (err, data) => {
-  if (err) {
-    console.error('读文件出错...')
-  }
-  // ...
-})
-```
+    fs.readFile(__dirname + '/demo.txt', { encoding: 'utf8' },(err, data) => {
+      if (err) {
+        console.error('读文件出错...')
+      }
+      // ...
+    })
 
 ## fs.readFileSync()
 
 同步地读取文件中的数据，语法如下：
 
-``` js
-fs.readFileSync(path[, opts]) 返回string|Buffer
+    fs.readFileSync(path[, opts]) 返回string|Buffer
 
-try {
-  const content = fs.readFileSync(__dirname + '/demo.txt')
-  // ...
-} catch (e) {
-  console.error('未找到文件，读取失败...')
-}
-```
+    try {
+      const content = fs.readFileSync(__dirname + '/demo.txt')
+      // ...
+    } catch (e) {
+      console.error('未找到文件，读取失败...')
+    }
 
 ## fs.rename()
 
@@ -314,7 +302,7 @@ getAllFileName(__dirname + '/src')
 
 ## fs.createReadStream()
 
-[fs.createReadStream](http://nodejs.cn/api/fs.html#fs_fs_createreadstream_path_options)创建一个读取文件的流，语法如下：
+[fs.createReadStream](http://nodejs.cn/api/fs.html#fs_fs_createreadstream_path_options) 创建一个读取文件的流，语法如下：
 
 ``` js
 fs.createReadStream(path[, opts])
