@@ -1,6 +1,6 @@
 # url
 
-[url](http://nodejs.cn/api/url.html#url_url)是node中的内置模块，用来处理和解析url。
+[url](http://nodejs.cn/api/url.html#url_url) 是 node 中的内置模块，用来处理和解析 url。
 
 ## url模块中的属性和方法
 
@@ -42,5 +42,31 @@ console.log(
 )
 
 // https: https://www.baidu.com  / https://www.baidu.com/ undefined
+```
 
+## 不创建 url 示例，直接解析
+
+``` js
+const url = require('url')
+const website = 'https://www.baidu.com'
+
+// 第二个参数设置为 true，将 query 转换成对象。
+url.parse(website, true)
+
+/*
+  Url {
+    protocol: 'https:',
+    slashes: true,
+    auth: null,
+    host: 'www.baidu.com',
+    port: null,
+    hostname: 'www.baidu.com',
+    hash: null,
+    search: null,
+    query: {},
+    pathname: '/',
+    path: '/',
+    href: 'https://www.baidu.com/' 
+  }
+*/
 ```
