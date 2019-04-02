@@ -39,7 +39,7 @@
 4. 配置文件引入
 5. 允许生成 `worker、process` 数等。
 
-#### 2、events块
+#### 2、events 块
 
 配置影响 `nginx` 服务器或与用户的网络连接。有：
 
@@ -48,7 +48,7 @@
 3. 是否允许同时接受多个网路连接
 4. 开启多个网络连接序列化等
 
-#### 3、http块
+#### 3、http 块
 
 1. 嵌套多个server
 2. 配置代理
@@ -57,13 +57,128 @@
 
 > 如文件引入，mime-type定义，日志自定义，是否使用sendfile传输文件，连接超时时间，单连接请求数等。
 
-#### 4、server块
+#### 4、server 块
 
-配置虚拟主机的相关参数，一个http中可以有多个server。
+配置虚拟主机的相关参数，一个 http 中可以有多个 server。
 
-#### 5、location块
+#### 5、location 块
 
 配置请求的路由，以及各种页面的处理情况。
+
+#### 6. upstream
+
+配置后端服务器具体地址，负载均衡配置不可或缺的部分。
+
+## nginx 内置全局变量
+
+可在任何位置使用的变量。
+
+| 变量名 | 功能 |
+| -- | -- |
+| $host | 请求信息中的 host，如果请求中没有 host 行，则等于设置的服务器名
+| $request_method | 客户端请求类型，如 `GET`、`POST`
+| $args | 请求中的参数
+| content_length | 请求头中 `Content-Type` 字段
+| $http_user_agent | 客户端 `agent` 信息
+| $http_cookie | 客户端 cookie 信息
+| $remote_addr | 客户端的 ip 地址
+| $remote_port | 客户端端口
+| $server_protocol | 请求的协议，如 http/1.0、http/1.1
+| $server_addr | 服务器地址
+| $server_name | 服务器名称
+| $server_port | 服务器端口
+
+## 解决跨域
+
+同源策略是指：在浏览器上 www.a.com 请求 www.b.com 资源，返回时会被浏览器拦截。然而 nginx 上转发请求并不会触发同源策略。
+
+    server {
+      listen 80;
+      server_name www.a.com;
+      location / {
+        proxy_pass www.b.com
+      }
+    }
+
+## 负载均衡
+
+第一步：`upstream` 指定后端服务器的地址列表。
+
+    upstream balanceServer {
+    
+      # upstream的负载均衡，weight是权重，可以根据机器配置定义权重。weigth参数表示权值，权值越高被分配到的几率越大。
+
+      server 192.168.80.121:80;
+      server 192.168.80.122:80;
+      server 192.168.80.123:80;
+    }
+
+第二步：在 server 中拦截请求，并发请求转发到 upstream 配置的服务列表。
+
+server {
+  server_name www.a.com;
+  listen 80;
+  location /api {
+    proxy_pass http://balanceServer;
+  }
+}
+
+第三步：指定负载均衡策略（共五种策略）
+
+轮询（默认）：每个请求按请求时间顺序逐一分配到不同的后端服务器，如果后端服务器 down掉，能自动剔除。但是如果某一个服务器压力太大，将会出现延迟，从而影响所有分配在这台服务器下的用户。
+
+最小连接数策略：将请求分配至压力较小的服务器，从而平衡每个服务队列的长度，避免了向压力大的服务器添加更多的请求。缺点是：每个服务器的活儿一样重，响应时间却成了瓶颈（响应时间短的服务器还ok，响应时间长的服务器就吃不消啦...）。
+
+    upstream balanceServer {
+      least_conn;
+      server 192.168.80.121:8;
+      server 192.168.80.122:80;
+      server 192.168.80.123:80;
+    }
+
+最快响应时间策略：依赖于 `NGINX Plus`，优先分配给响应时间最短的服务器（谁能干给谁分配地多）。
+
+    upstream balanceServer {
+      fair;
+      server 192.168.80.121:80;
+      server 192.168.80.122:80;
+      server 192.168.80.123:80;
+    }
+
+绑定客户端 ip：来自同一个 ip 的用户永远只分配给一台服务器，能解决动态网页存在的 `session` 共享问题。
+
+    upstream balanceServer {
+      ip_hash;
+      server 192.168.80.121:80;
+      server 192.168.80.122:80;
+      server 192.168.80.123:80;
+    }
+
+weight: 权重，指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。
+
+    upstream balanceServer {
+      server 192.168.0.14 weight=10;
+      server 192.168.0.15 weight=20;
+    }
+
+## 静态资源服务器
+
+    location ~* \.(htm|html|gif|jpg|jpeg|png|bmp|swf|ioc|rar|zip|txt|flv|mid|doc|ppt|
+        pdf|xls|mp3|wma)$ {
+      root /root/static/;
+      autoindex on;
+      access_log off;
+      expires 10h; # 设置过期时间为 10 小时。
+    }
+
+匹配以 png|gif...为结尾的资源请求，都将请求转发到本地路径（ root 所指的路径就是 nginx 本地路径），也可以设置缓存。
+    
+    # JS和CSS缓存时间设置
+    location ~ .*.(js|css)?$
+    {
+        expires 1h;
+    }
+
 
 ## nginx 配置文件实例1
 
@@ -120,8 +235,8 @@
           server 192.168.10.121:3333 backup;    # 热备
         }
 
-        # error_page指令用于自定义错误页面，500，502，503，504 这些就是HTTP中最# 常见的错误代码，/50.html 用于表示当发生上述指定的任意一个错误的时候，都# 是用网站根目录下的/50.html文件进行处理。网址或者html文件。
-        error_page 404 https://www.baidu.com;   # 错误页
+        # error_page指令用于自定义错误页面，500，502，503，504 这些就是HTTP中最常见的错误代码，/50x.html 用于表示当发生上述指定的任意一个错误的时候，都是用网站根目录下的/50.html文件进行处理。网址或者html文件。
+        error_page 500 501 502 /50x.html;   # 错误页
 
         # 虚拟主机配置
         server {
@@ -262,16 +377,18 @@
         # 该指令用于开启或 关闭gzip模块。
         gzip on;
 
-        # 设置允许压缩的页面最小字节数，页面字节数从相应消息头的Content-length中进行获取。
+        # 设置允许压缩的页面最小字节数，默认值是0，页面字节数从相应消息头的Content-length中进行获取。如果 Content-Type 小于该值，将不被压缩。
         gzip_min_length 1k; 
 
         # 设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。
         gzip_buffers 4 16k;    #压缩缓冲区
-        gzip_http_version 1.0;    #压缩版本（默认1.1，前端如果是squid2.5请使用1.0）
+        gzip_http_version 1.1;    #压缩版本（默认1.1，前端如果是squid2.5请使用1.0）
 
         # gzip压缩比，压缩级别是1-9，1的压缩级别最低，9的压缩级别最高。压缩级别越高压缩率越大，压缩时间越长。
-        gzip_comp_level 2;    #压缩等级
-        gzip_types text/plain application/x-javascript text/css application/xml;    #压缩类型，默认就已经包含textml，所以下面就不用再写了，写上去也不会有问题，但是会有一个warn。
+        gzip_comp_level 2;    #压缩等级 1-9，等级越高压缩率越大，花费的时间也就越长
+        gzip_types text/plain application/x-javascript text/css application/xml;    
+        
+        #压缩类型(MIME)，默认就已经包含text/html(默认不压缩 css/js )。
 
         # gzip_proxied : 用于设置启用或禁用从代理服务器上收到相应内容gzip压缩。
         
@@ -282,61 +399,6 @@
 
         # 开启限制IP连接数的时候需要使用
         # limit_zone crawler $binary_remote_addr 10m;
-
-
-
-        # 负载均衡配置
-        upstream piao.jd.com {
-        
-        # upstream的负载均衡，weight是权重，可以根据机器配置定义权重。weigth参数表示权值，权值越高被分配到的几率越大。
-        server 192.168.80.121:80 weight=3;
-        server 192.168.80.122:80 weight=2;
-        server 192.168.80.123:80 weight=3;
-
-        # nginx的upstream目前支持4种方式的分配
-        # 1、轮询（默认）
-        # 每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。
-        # 2、weight
-        # 指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。
-        # 例如：
-        # upstream bakend {
-        #    server 192.168.0.14 weight=10;
-        #    server 192.168.0.15 weight=10;
-        # }
-        # 2、ip_hash
-        # 每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。
-        # 例如：
-        # upstream bakend {
-        #    ip_hash;
-        #    server 192.168.0.14:88;
-        #    server 192.168.0.15:80;
-        #}
-        #3、fair（第三方）
-        #按后端服务器的响应时间来分配请求，响应时间短的优先分配。
-        #upstream backend {
-        #    server server1;
-        #    server server2;
-        #    fair;
-        #}
-        #4、url_hash（第三方）
-        #按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。
-        #例：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法
-        #upstream backend {
-        #    server squid1:3128;
-        #    server squid2:3128;
-        #    hash $request_uri;
-        #    hash_method crc32;
-        #}
-
-        #tips:
-        #upstream bakend{#定义负载均衡设备的Ip及设备状态}{
-        #    ip_hash;
-        #    server 127.0.0.1:9090 down;
-        #    server 127.0.0.1:8080 weight=2;
-        #    server 127.0.0.1:6060;
-        #    server 127.0.0.1:7070 backup;
-        #}
-        #在需要使用负载均衡的server中增加 proxy_pass http://bakend/;
 
         # 每个设备的状态设置为:
         # 1.down表示单前的server暂时不参与负载
@@ -369,18 +431,6 @@
             fastcgi_pass 127.0.0.1:9000;
             fastcgi_index index.php;
             include fastcgi.conf;
-        }
-         
-        # 图片缓存时间设置
-        location ~ .*.(gif|jpg|jpeg|png|bmp|swf)$
-        {
-            expires 10d;
-        }
-         
-        # JS和CSS缓存时间设置
-        location ~ .*.(js|css)?$
-        {
-            expires 1h;
         }
          
         # 日志格式设定
@@ -470,42 +520,15 @@
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_pass http://127.0.0.1:8080;
         }
-         
-        # 所有静态文件由nginx直接读取不经过tomcat或resin
-        location ~ .*.(htm|html|gif|jpg|jpeg|png|bmp|swf|ioc|rar|zip|txt|flv|mid|doc|ppt|
-        pdf|xls|mp3|wma)$
-        {
-            expires 15d; 
-        }
-         
-        location ~ .*.(js|css)?$
-        {
-            expires 1h;
-        }
+        
     }
 }
 
 **注意：**
 
-#### 1、 几个常见配置项：
+- 惊群现象：一个网路连接到来，多个睡眠的进程被同时叫醒，但只有一个进程能获得链接，这样会影响系统性能。
 
-    $remote_addr 与 $http_x_forwarded_for 用以记录客户端的ip地址；
+- 每个指令必须有分号结束。
 
-    $remote_user ：用来记录客户端用户名称；
-
-    $time_local ： 用来记录访问时间与时区；
-
-    $request ： 用来记录请求的url与http协议；
-
-    $status ： 用来记录请求状态；成功是200；
-
-    $body_bytes_s ent ：记录发送给客户端文件主体内容大小；
-
-    $http_referer ：用来记录从那个页面链接访问过来的；
-
-    $http_user_agent ：记录客户端浏览器的相关信息；
-
-#### 2、惊群现象：一个网路连接到来，多个睡眠的进程被同时叫醒，但只有一个进程能获得链接，这样会影响系统性能。
-
-#### 3、每个指令必须有分号结束。
+学习连接：[技术旁 nginx](https://www.bilibili.com/video/av35986548?from=search&seid=3976651392639128391)
 
