@@ -23,18 +23,16 @@ scss文件地嵌套：
 ```scss
 /* 在小程序内iphone6下， px2rpx */
 
-@function px2rpx($px) {
+@function px2rpx($px: 10) {
   @return $px * 2rpx
 }
 
-
 .box {
-  width: px2rpx(20);
+  width: px2rpx();
 }
-
 ```
 
-定义mixin：@mixin定义，@include引入。
+定义mixin：@mixin定义，@include引入 (也可以使用动态参数)。
 
 ```scss
 @mixin mixin() {
@@ -45,6 +43,56 @@ scss文件地嵌套：
 
 .box {
   @include mixin;
+}
+```
+
+@if/@else 实现 toogle:
+
+``` scss
+@mixin toogle ($flag: true) {
+  @if $flag {
+    display: block;
+  } @else {
+    display: none;
+  }
+}
+
+.box {
+  @include toogle()
+}
+```
+
+@for 循环:
+
+``` scss
+@for $i from 1 through 10 {
+  .box-#{$i} {
+    display: inline-block;
+  }
+}
+```
+
+@while 循环：
+
+``` scss
+$i: 0;
+@while $i <= 10 {
+  .box-#{$i} {
+    display: inline-block;
+  }
+  $i: $i + 1;
+}
+```
+
+@each 枚举遍历：
+
+``` scss
+$num: 1 2 3 4;
+
+@each $i in $num {
+  .box-#{$i} {
+    display: inline-block;
+  }
 }
 ```
 
