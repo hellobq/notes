@@ -69,7 +69,7 @@ req.method: 请求方法
         writeHead 可以传输状态码，setHeader 需要使用 statusCode。
     */
 
-    // res.end(data)表示服务端数据处理完成，并向客户端发送了信息data（可选）
+    // res.end(data)表示服务端数据处理完成、结束响应流，并向客户端发送了信息data（可选）
     res.end(
       [data <string|Buffer> ] 
       [, encoding <string> ]

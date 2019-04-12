@@ -69,9 +69,11 @@
 
 支持引入三种类型文件：.js .json .node
 
+通过 require.resolve('./demo.js') 可获得 demo.js 模块的文件路径，和 require('path').resolve(__dirname, './demo.js') 一样的。
+
 ## 模块缓存
 
-在同一个 test1.js 模块内，引用多次同一个其他 test2.js 模块，在第一次引入之后会被缓存。
+在同一个 test1.js 模块内，引用多次同一个其他 test2.js 模块，在第一次引入之后会被缓存。使用 require.cache 属性可查看缓存区的内容。
 
     // test1.js
     console.log('test1')
