@@ -50,6 +50,8 @@ List 集合：数组是 List 对象，多数称之为 List。字面量/构造函
 
 使用构造函数创建的列表：new List(3)，在创建时就声明其长度。
 
+声明一个列表时，通常会标注什么类型的列表，否则就是 `dynamic` 类型的了： `List<String> list1、List list2`
+
 ``` dart
 List l = [1, 2, 3];
 l.add('de');
