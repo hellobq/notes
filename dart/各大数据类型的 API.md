@@ -101,7 +101,7 @@ int 转换成 radix 进制的数字，同时转为字符串：
 
 相关链接：[dart String](http://www.shutongye.com/dartapi/dart-core/String/substring.html)
 
-## List 列表类型
+## List 列表类型（也是容器）
 
 获取列表长度：
 
@@ -165,7 +165,7 @@ int 转换成 radix 进制的数字，同时转为字符串：
 
 相关链接：[dart List][](http://www.shutongye.com/dartapi/dart-core/List/shuffle.html)
 
-## Map 数据类型
+## Map 数据类型（也是容器）
 
 获取 map 长度：
 
@@ -203,4 +203,50 @@ int 转换成 radix 进制的数字，同时转为字符串：
 
 相关链接：[dart Map][](http://www.shutongye.com/dartapi/dart-collection/MapMixin/clear.html)
 
+## Set 容器
 
+集合：无序、唯一。
+
+将 value 添加到 Set 中。如果 value（或相等的值）还不在Set中，返回true。 否则，返回false，并且Set不变。
+
+    bool add(E element);
+
+将所有 elements 添加到 Set 中。
+
+    void addAll(Iterable<E> elements);
+
+从Set中删除value。 如果value在Set中，返回true。否则，返回false。 如果value不在Set中，方法不会产生任何效果。
+
+    bool remove(Object element);
+
+如果value在Set中，返回true。
+
+    bool contains(Object element);
+
+返回this是否包含other的所有元素。
+
+    bool containsAll(Iterable<Object> other);
+
+返回this和other的差集。
+
+    Set<E> difference(Set<Object> other);
+
+通过索引返回元素。index不能为负值，并且小于length。
+
+    E elementAt(int index);
+
+如果元素中任何一个使test返回false，该方法返回false。 否则返回true。
+
+    bool every(bool f(E element));
+
+对集合的每个元素，按迭代顺序应用f函数。
+
+    void forEach(void f(E element));
+
+将每个元素转换成String并连接。
+
+    String join([String separator = ""]);
+
+转List。
+
+    List<E> toList({bool growable: true})

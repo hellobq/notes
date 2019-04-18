@@ -1,6 +1,6 @@
 # dart基础语法
 
-可使用 `//` 和 `/**/` 实现单行注释和多行注释。
+可使用 `//` 和 `/**/`、`///` 实现单行注释和多行注释、文档注释。
 
 dart 代码在运行前会被解析一遍。指定数据类型和编译时的常量，可以提高运行速度。
 
@@ -35,13 +35,14 @@ print(1.323.toStringAsFixed(2)); // double -> String，并且四舍五入
 
 字符串类型：String
 
-可使用单引号/双引号创建字符串，使用 `$arg_name` 在字符串中插入变量。
+可使用单引号/双引号创建字符串，使用 `$arg_name` 在字符串中插入变量，也可以通过 `+` 实现字符串连接。也可以使用前缀 `r` 来创建原始字符，避免字符转义。
 
 ``` dart
-String hello = 'hello', world = "world";
+String hello = 'hello', world = "world", str = r'hahah \n dede';
 int num = 10;
 
 print('$hello $world, $num');
+print(str);
 ```
 
 布尔类型：true/false
@@ -75,6 +76,8 @@ map['name'] = 'Jack';
 map['age'] = 20;
 ```
 
+像 `List`、`Map` 都是 `iterable` 对象，可使用 `forEach`、`for...in` 实现遍历。 
+
 ## 变量
 
 可用 `var、const/final、int/bool/String/double、Object/dynamic` 关键字定义变量。
@@ -106,6 +109,9 @@ main() {
 ```
 
 如果不打算更改一个变量，可用 `final/const` 声明，`final/const` 不能和 `var` 一同使用。
+
+> const 定义的是编译时常量，只能用编译时常量来初始化；
+> final 定义的常量可以用变量来初始化
 
 ``` dart
 final var a = 0; // Error
@@ -167,9 +173,11 @@ final l6 = const [];
 l6.add('demo'); // Error
 ```
 
+此外：`const` 不仅可以声明常量，还能创建常量值、声明创建常量值的构造器。
+
 ## 运算符
 
-算术运算符：+ - * / ~/（除以，返回整数结果） ++ --
+算术运算符：+ - * / `~/`（除以，返回整数结果） ++ --
 
 比较运算符：> < >= <= == !=
 
@@ -187,6 +195,6 @@ l6.add('demo'); // Error
 
 三元运算符：? :
 
-级联运算符：.. 级联操作符 (..) 可以在同一个对象上 连续调用多个函数以及访问成员变量。
+级联运算符：`..` 级联操作符 (..) 可以在同一个对象上 连续调用多个函数以及访问成员变量。
 
 ![](img/级联操作符.jpg)
