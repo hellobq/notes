@@ -2,9 +2,13 @@
 
 和 js 相似，即使是一个字面量也可以使用对象的 API，因为它会先转变成临时对象，这个临时对象的 API就是该数据类型的 API。
 
-## 数组类型 API
+## 数字类型 API
 
 num 分为：int、double。(也可用 num 声明变量)
+
+当且仅当this是奇数时，返回true。
+
+    bool isOdd
 
 num 转 字符串：
 

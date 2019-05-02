@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: "GridView",
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Column"),
+          title: Text("Stack布局"),
         ),
         body: Center(
           child: MyStack()

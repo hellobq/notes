@@ -50,6 +50,8 @@ home: Scaffold(
 
 ![](img/使用本地图片.jpg)
 
+如果需要引入多个图片，assets 配置项写目录亦可：`images/`。
+
 2. 在类中使用即可
 
 ``` dart

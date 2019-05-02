@@ -84,7 +84,7 @@ home: Scaffold(
           ),
           new Container(
             width:180.0,
-            color: Colors.deepOrange,
+            color: Colors.deepOrange[200],
           ),
           new Container(
             width:180.0,
