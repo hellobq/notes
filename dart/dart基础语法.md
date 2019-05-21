@@ -8,7 +8,7 @@ dart 有统一的程序入口：`main()`。
 
 dart 每句代码后必须有 `;` 结束，否则报错。
 
-## 数据类型（5种）
+# 数据类型（7种）
 
 数字类型：int/double
 
@@ -76,9 +76,18 @@ map['name'] = 'Jack';
 map['age'] = 20;
 ```
 
-像 `List`、`Map` 都是 `iterable` 对象，可使用 `forEach`、`for...in` 实现遍历。 
+Set 集合：用大括号来复制，Set<E>
 
-## 变量
+``` dart
+Set<String> friuts = {
+  'appale',
+  'banana'
+}
+```
+
+像 `List`、`Map`、`Set` 都是 `iterable` 对象，可使用 `forEach`、`for...in` 实现遍历。 
+
+# 变量
 
 可用 `var、const/final、int/bool/String/double、Object/dynamic` 关键字定义变量。
 
@@ -110,8 +119,9 @@ main() {
 
 如果不打算更改一个变量，可用 `final/const` 声明，`final/const` 不能和 `var` 一同使用。
 
+> const 和 final 的主要不同时：初始化的时机不同。
 > const 定义的是编译时常量，只能用编译时常量来初始化；
-> final 定义的常量可以用变量来初始化
+> final 变量创建时才初始化。
 
 ``` dart
 final var a = 0; // Error
@@ -175,13 +185,13 @@ l6.add('demo'); // Error
 
 此外：`const` 不仅可以声明常量，还能创建常量值、声明创建常量值的构造器。
 
-## 运算符
+# 运算符
 
-算术运算符：+ - * / `~/`（除以，返回整数结果） ++ --
+算术运算符：+ - * / `~/`（整除，返回整数结果） % ++ --
 
 比较运算符：> < >= <= == !=
 
-类型测试运算符：is(属于) is!(不属于)
+类型测试运算符：is（属于） is!（不属于） as（类型转换，前者不能是 null）
 
 逻辑运算符：&& || !
 
@@ -198,3 +208,32 @@ l6.add('demo'); // Error
 级联运算符：`..` 级联操作符 (..) 可以在同一个对象上 连续调用多个函数以及访问成员变量。
 
 ![](img/级联操作符.jpg)
+
+访问成员变量：.
+
+函数调用：()
+
+### 有意思的 ?. ?? ??=
+``` dart
+// ?. 用于访问表达式的某个属性，有效避免 NPE
+var name = user?.name;
+
+var name;
+if (user == null) {
+  name = null;
+} else {
+  name = user.name;
+}
+
+
+// ?? 用于赋值，如果前者为 null，将返回后者
+var newName = name ?? 'Bob';
+
+if (name == null) {
+  newName = 'Bob';
+} else {
+  newName = name;
+}
+
+// A??=B 等同于  A = A ?? B
+```
