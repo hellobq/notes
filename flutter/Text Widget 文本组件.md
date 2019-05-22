@@ -1,6 +1,6 @@
 ## Text Widget 文本组件
 
-TextAlign: left(左对齐)、center（居中对齐）、right（右对齐）。
+
 
 maxLines: 设置最多显示的行数。
 
