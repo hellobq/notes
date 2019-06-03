@@ -19,6 +19,7 @@ Google 开源的跨平台 UI 框架。
   - github：https://github.com/flutter/flutter
   - 生态圈：https://github.com/Solido/awesome-flutter
   - 官网：https://flutter.io/
+  - Flutter 所有 widget: https://api.flutter.dev/flutter/widgets/widgets-library.html
 
 #### 搭建flutter：
 

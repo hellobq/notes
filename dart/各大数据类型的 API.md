@@ -48,7 +48,7 @@ int 转换成 radix 进制的数字，同时转为字符串：
 
     double toDouble();
 
-四舍五入 fractionDigits 位，并以字符串形式返回:
+保留 fractionDigits 位小数，即四舍五入 fractionDigits 位，并以字符串形式返回:
 
     String toStringAsFixed(int fractionDigits)
 

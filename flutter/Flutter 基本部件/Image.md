@@ -1,6 +1,13 @@
-### 1. 简介 Image
+### ImageProvider
 
-Image 用来加载图片的部件，总共有 5 个构造函数：
+`ImageProvider` 是一个抽象类，主要定义图片数据获取的接口 `load()`，从不同的数据源获取图片的接口不同。
+
+- `AssetImage` 从 `asset` 中加载图片。
+- `NetworkImage` 从网络中加载图片。
+
+### Image
+
+Image 用来加载图片的部件，加载图片的方式有多种：网络、文件、内存、asset。Image 类总共有 5 个构造函数：
 
 ``` dart
 class Image extends StatefulWidget {
@@ -34,13 +41,11 @@ class Image extends StatefulWidget {
 
 一般只是用四种命名构造函数，四种不同的构造函数表明图片的来源不同。
 
-### 2. 构造函数的共有参数
+### 构造函数的共有参数
 
 参数名字	| 参数类型	| 意义	| 必选 or 可选
 - | - | - | -
 key	| Key |	Widget 的标识	| 可选
-scale |	double	| 图形缩小的比例，值越大图越小	| 可选
-semanticsLabel	| String	| 给 Image 加上一个语义标签，没有实际用处	| 可选
 width	| double	| 图片的宽<br>如果为null的话，则图像将选择最佳大小显示，而且会保留其固有宽高比的大小 | 可选
 height	| double	| 图片的高<br>如果为null的话，则图像将选择最佳大小显示，而且会保留其固有宽高比的大小	| 可选
 color	| Color	| 图片的混合色值	| 可选
@@ -48,12 +53,14 @@ colorBlendMode | BlendMode	| 图片与颜色的混合模式	| 可选
 fit	| BoxFit	| 用于在图片的显示空间和图片本身大小不同时指定图片的适应模式	| 可选
 alignment	| Alignment	| [图片的对齐方式](Container.md)	| 可选
 repeat	| ImageRepeat	| 当图片本身大小小于显示空间时，指定图片的重复规则 | 可选
+scale |	double	| 图形缩小的比例，值越大图越小	| 可选
+semanticsLabel	| String	| 给 Image 加上一个语义标签，没有实际用处	| 可选
 centerSlice |	Rect	| 在这个矩形范围内的图片会被当成.9的图片 |	可选
 matchTextDirection	| bool	| 图片的绘制方向<br>true:从左往右<br>false:从右往左	| 可选
 gaplessPlayback	| bool |当图像提供者更改时<br>true：继续显示旧图像<br>false：简单地显示任何内容 | 可选
 filterQuality	| FilterQuality	| 设置图片的过滤质量	| 可选
 
-### 2.1 fit：BoxFit，用于在图片的显示空间和图片本身大小不同时指定图片的适应模式
+#### fit：BoxFit，用于在图片的显示空间和图片本身大小不同时指定图片的适应模式
 
 BoxFit 的值 | 含义
 - | - | -
@@ -65,7 +72,7 @@ BoxFit.fitHeight |	图片的高度会缩放到显示空间的高度，宽度会�
 BoxFit.scaleDown	| 对齐目标框内的源（默认情况下，居中），并在必要时缩小源以确保源适合框内。这与contains相同，如果这会缩小图像，否则它与none相同。
 BoxFit.none	| 图片没有适应策略，会在显示空间内显示图片，如果图片比显示空间大，则显示空间只会显示图片中间部分
 
-### 2.2 repeat：ImageRepeat，当图片本身大小小于显示空间时，指定图片的重复规则
+#### repeat：ImageRepeat，当图片本身大小小于显示空间时，指定图片的重复规则
 
 ImageRepeat的值	| 含义
 - | - | -
@@ -74,7 +81,7 @@ ImageRepeat.repeatX	| 在x轴上重复图像，直到填充满空间。
 ImageRepeat.repeatY	| 在y轴上重复图像，直到填充满空间。
 ImageRepeat.noRepeat	| 不重复
 
-### 2.3 filterQuality：FilterQuality，设置图片的过滤质量（没啥用）
+#### filterQuality：FilterQuality，设置图片的过滤质量（没啥用）
 
 FilterQuality的值	| 含义
 - | - | -
