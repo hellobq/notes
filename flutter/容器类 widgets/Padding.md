@@ -6,6 +6,13 @@
 const Padding({
   Key key,
   @required this.padding,
+  /*
+    EdgeInsets 提供的便捷方法：
+      EdgeInsets.fromLTRB(double left, double top, double right, double bottom)：分别指定四个方向的补白。
+      EdgeInsets.all(double value) : 所有方向均使用相同数值的补白。
+      EdgeInsets.only({left, top, right ,bottom })：可以设置具体某个方向的补白(可以同时指定多个方向)。
+      EdgeInsets.symmetric({ vertical, horizontal })：用于设置对称方向的补白，vertical指top和bottom，horizontal指left和right。
+  */
   Widget child,
 })
 ```
@@ -23,7 +30,9 @@ if (margin != null)
 
 ### 2. Padding 类的继承关系
 
-    Object > Diagnosticable > DiagnosticableTree > Widget > RenderObjectWidget > SingleChildRenderObjectWidget > Padding
+```
+Object > Diagnosticable > DiagnosticableTree > Widget > RenderObjectWidget > SingleChildRenderObjectWidget > Padding
+```
 
 SingleChildRenderObjectWidget 规定 Padding 只能包裹一个子部件。
 

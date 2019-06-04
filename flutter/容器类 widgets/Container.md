@@ -124,35 +124,16 @@ constraints: BoxConstraints(
 变换包括：缩放、旋转、偏移。通过 类 `Matrix4` 来设定。
 
 ``` dart
-import 'package:flutter/material.dart';
-import 'dart:math';
+Container(
+  width: 200.0,
+  height: 200.0,
+  color: Colors.blue[300],
+  alignment: Alignment(0.0, 0.0),
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Container demo')
-        ),
-        body: Center(
-          child: Container(
-            width: 200.0,
-            height: 200.0,
-            color: Colors.blue[300],
-            alignment: Alignment(0.0, 0.0),
-
-            // 按照 Z 轴旋转45°  要导包 import 'dart:math'
-            transform: Matrix4.rotationZ(pi / 4),
-            child: Text('Container Text!')
-          )
-        )
-      )
-    );
-  }
-}
+  // 按照 Z 轴旋转45°  要导包 import 'dart:math'
+  transform: Matrix4.rotationZ(pi / 4),
+  child: Text('Container Text!')
+)
 ```
 ### 1.9. child 用于设置 Container 的子部件
 
