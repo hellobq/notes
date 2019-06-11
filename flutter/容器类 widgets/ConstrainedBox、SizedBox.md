@@ -1,4 +1,4 @@
-### ConstrainedBox、SizedBox
+### ConstrainedBox、SizedBox 限制容器大小
 
 `ConstrainedBox` 限制子部件宽高的最大/最小值；`SizedBox` 用来绘制一个规定宽高的部件。
 

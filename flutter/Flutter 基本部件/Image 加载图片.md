@@ -89,3 +89,54 @@ FilterQuality.none	| 最快的过滤。
 FilterQuality.low	| 比none的过滤质量好，但是比none的时间要长。
 FilterQuality.medium	| 比low的过滤质量好，但是也比low的时间要长
 FilterQuality.high	| 过滤质量最高，但也最慢
+
+### placeholder、fadeIn
+
+为了防止图片由不显示到突然显示的突兀，可使用占位符、图片淡入的效果。
+
+使用FadeInImage组件来达到这个功能。FadeInImage 能处理内存中或 App 资源或网络上的图片作为占位符图片。
+
+``` dart
+// 使用 transparent_image 库为网络图片提供透明占位符
+import 'package:transparent_image/transparent_image.dart';
+FadeInImage.memoryNetwork(
+  placeholder: kTransparentImage,
+  image: 'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
+)
+
+// App 内的资源作为占位符
+FadeInImage.assetNetwork(
+  placeholder: 'images/avatar.jpg',
+  image: 'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
+),
+
+// 使用 Stack 布局，使图片有个 loading 的效果
+import 'package:transparent_image/transparent_image.dart';
+Stack(
+  children: <Widget>[
+    Center(child: CircularProgressIndicator()),
+    Center(
+      child: FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: 'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
+      ),
+    ),
+  ],
+),
+```
+
+### 使用缓存图片、placeholder、fadeIn
+
+[cached_network_image](https://pub.dev/packages/cached_network_image) 包支持缓存图片，使得图片可实现脱机使用。并且支持占位符（可以是任意部件）和淡入淡出图像。
+
+``` dart
+import 'package:cached_network_image/cached_network_image.dart';
+Center(
+  child: CachedNetworkImage(
+    placeholder: (context, url) => CircularProgressIndicator(),
+    imageUrl: 'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
+  ),
+),
+```
+
+可能会遇到错误：[MissingPluginException](https://github.com/renefloor/flutter_cached_network_image/issues/50)
