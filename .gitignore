@@ -2,3 +2,5 @@
 
 *.html
 demo.js
+demo.ts
+tsconfig.json
