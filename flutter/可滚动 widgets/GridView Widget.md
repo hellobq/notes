@@ -104,55 +104,104 @@ GridView(
 
 ### GridView.count
 
-GridView.count构造函数内部使用了SliverGridDelegateWithFixedCrossAxisCount，使用 GridView.count() 方法创建 GridView 组件，也可直接使用GridView创建网格组件：
+GridView.count 构造函数如下：
 
 ``` dart
-GridView(
+GridView.count({
+  Axis scrollDirection: Axis.vertical, 
+  bool reverse: false, 
+  ScrollController controller, 
+  bool primary, 
+  ScrollPhysics physics, 
+  bool shrinkWrap: false, 
+  EdgeInsetsGeometry padding, 
+  int crossAxisCount, 
+  double mainAxisSpacing: 0.0, 
+  double crossAxisSpacing: 0.0, 
+  double childAspectRatio: 1.0, 
+  bool addAutomaticKeepAlives: true, 
+  bool addRepaintBoundaries: true, 
+  bool addSemanticIndexes: true, 
+  double cacheExtent, 
+  List<Widget> children: const <Widget> [], 
+  DragStartBehavior dragStartBehavior: DragStartBehavior.down, 
+
+  int semanticChildCount
+})
+```
+
+GridView.count 构造函数内部使用了 SliverGridDelegateWithFixedCrossAxisCount，使用 GridView.count() 方法创建 GridView 组件，也可直接使用GridView创建网格组件：
+
+``` dart
+GridView.count(
   padding: EdgeInsets.all(10.0),
-  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 3,
-    mainAxisSpacing: 2.0,
-    crossAxisSpacing: 2.0,
-    childAspectRatio: 0.75
-  ),
+  crossAxisCount: 3,
+  mainAxisSpacing: 2.0,
+  crossAxisSpacing: 2.0,
+  childAspectRatio: 0.75,
   children: <Widget>[
     Image.network(
-        "http://img5.mtime.cn/mt/2019/02/21/095918.47882172_270X405X4.jpg",
-        fit: BoxFit.cover
-      ),
-      Image.network(
-        "http://img5.mtime.cn/mt/2019/01/25/100901.82440600_270X405X4.jpg",
-        fit: BoxFit.cover
-      ),
-      Image.network(
-        "http://img5.mtime.cn/mg/2019/02/19/095714.33859824_270X405X4.jpg",
-        fit: BoxFit.cover
-      ),
-      Image.network(
-        "http://img5.mtime.cn/mt/2019/01/25/105549.53627008_270X405X4.jpg",
-        fit: BoxFit.cover
-      ),
-      Image.network(
-        "http://img5.mtime.cn/mt/2019/03/01/142658.85498591_270X405X4.jpg",
-        fit: BoxFit.cover
-      ),
-      Image.network(
-        "http://img5.mtime.cn/mt/2019/01/09/171109.88229500_270X405X4.jpg",
-        fit: BoxFit.cover
-      ),
-      Image.network(
-        "http://img5.mtime.cn/mg/2019/02/26/103754.10526344_270X405X4.jpg",
-        fit: BoxFit.cover
-      )
+      "http://img5.mtime.cn/mt/2019/02/21/095918.47882172_270X405X4.jpg",
+      fit: BoxFit.cover
+    ),
+    Image.network(
+      "http://img5.mtime.cn/mt/2019/01/25/100901.82440600_270X405X4.jpg",
+      fit: BoxFit.cover
+    ),
+    Image.network(
+      "http://img5.mtime.cn/mg/2019/02/19/095714.33859824_270X405X4.jpg",
+      fit: BoxFit.cover
+    ),
+    Image.network(
+      "http://img5.mtime.cn/mt/2019/01/25/105549.53627008_270X405X4.jpg",
+      fit: BoxFit.cover
+    ),
+    Image.network(
+      "http://img5.mtime.cn/mt/2019/03/01/142658.85498591_270X405X4.jpg",
+      fit: BoxFit.cover
+    ),
+    Image.network(
+      "http://img5.mtime.cn/mt/2019/01/09/171109.88229500_270X405X4.jpg",
+      fit: BoxFit.cover
+    ),
+    Image.network(
+      "http://img5.mtime.cn/mg/2019/02/26/103754.10526344_270X405X4.jpg",
+      fit: BoxFit.cover
+    )
   ],
-),
+)
 ```
 
 ![](../img/GridviewCount.jpg)
 
 ### GridView.extent
 
-GridView.extent 构造函数内部使用了 SliverGridDelegateWithMaxCrossAxisExtent，我们通过它可以快速的创建纵轴子元素为固定最大长度的的 GridView ，上面的示例代码等价于：
+GridView.extent 构造函数如下：
+
+``` dart
+GridView.extent({
+  Axis scrollDirection: Axis.vertical, 
+  bool reverse: false, 
+  ScrollController controller, 
+  bool primary, 
+  ScrollPhysics physics, 
+  bool shrinkWrap: false, 
+  EdgeInsetsGeometry padding, 
+  double mainAxisSpacing: 0.0, 
+  double crossAxisSpacing: 0.0, 
+  double childAspectRatio: 1.0, 
+  bool addAutomaticKeepAlives: true, 
+  bool addRepaintBoundaries: true, 
+  bool addSemanticIndexes: true, 
+  List<Widget> children: const <Widget> [], 
+  int semanticChildCount, 
+  DragStartBehavior dragStartBehavior: DragStartBehavior.down, 
+
+  double maxCrossAxisExtent
+})
+```
+
+因为 GridView.extent 内部使用了 SliverGridDelegateWithMaxCrossAxisExtent，我们通过它可以快速的创建纵轴子元素为固定最大长度的的 GridView ，上面的示例代码等价于：
 
 ``` dart
 GridView.extent(
