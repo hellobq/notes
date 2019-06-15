@@ -38,3 +38,7 @@ yarn global add typescript
 2. 点击菜单 > 任务 > 运行工具，点击 `tsc：监视 - tsconfig.json` 文件即可（注意终端不能是 git bash，否则找不到 tsconfig.json 文件）。
 
 另外：在 rollup、webpack 打包工具中，也能自动编译 ts 文件。
+
+### playground-typescript
+
+[playground-typescript](https://www.typescriptlang.org/play/) 用来实时编译 ts 语法的网站。
