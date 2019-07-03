@@ -244,14 +244,23 @@ weight: 权重，指定轮询几率，weight和访问比率成正比，用于后
             listen       4545;                  # 监听端口
             server_name  127.0.0.1;             # 监听地址     
 
-            # 正则设置访问权限  
-            location  ~*^.+$ {                  # 请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
+            # 1. 正则设置访问权限  
+            location  ~*^.+$ {                 # 请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
               #root path;                      # 根目录
               #index vv.txt;                   # 设置默认页
               proxy_pass  http://mysvr;        # 请求转向 mysvr 定义的服务器列表
               deny 127.0.0.1;                  # 拒绝的ip
               allow 172.18.5.54;               # 允许的ip        
             } 
+
+            # 2. 使用 = 设置精准匹配  
+            location  =/admin {                # 使用 = 设置精准匹配
+              #root path;                      # 根目录
+              #index vv.txt;                   # 设置默认页
+              proxy_pass  http://mysvr;        # 请求转向 mysvr 定义的服务器列表
+              deny 127.0.0.1;                  # 拒绝的ip
+              allow 172.18.5.54;               # 允许的ip        
+            }
         }
     }
 
@@ -441,7 +450,20 @@ weight: 权重，指定轮询几率，weight和访问比率成正比，用于后
         #$status： 用来记录请求状态；成功是200，
         #$body_bytes_sent ：记录发送给客户端文件主体内容大小；
         #$http_referer：用来记录从那个页面链接访问过来的；
-        #$http_user_agent：记录客户浏览器的相关信息；
+        #$http_user_agent：记录客户浏览器的相关信息，可判断用户的浏览器处于手机端还是 PC，进而显示不同页面；
+
+        server{
+          listen 80;
+          server_name nginx2.jspang.com;
+          location / {
+            root /usr/share/nginx/pc;
+            if ($http_user_agent ~* '(Android|webOS|iPhone|iPod|BlackBerry)') {
+                root /usr/share/nginx/mobile;
+            }
+            index index.html;
+          }
+        }
+
         #通常web服务器放在反向代理的后面，这样就不能获取到客户的IP地址了，通过$remote_add拿到的IP地址是反向代理服务器的iP地址。反向代理服务器在转发请求的http头信息中，可以增加x_forwarded_for信息，用以记录原有客户端的IP地址和原来客户端的请求的服务器地址。
         log_format access '$remote_addr - $remote_user [$time_local] "$request" '
         '$status $body_bytes_sent "$http_referer" '

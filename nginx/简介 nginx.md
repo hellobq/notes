@@ -12,3 +12,23 @@
 3. 开源、免费。可用作商业化。
 
 4. ...
+
+## nginx 相关命令（CentOS 环境下）
+
+查看 nginx 相关文件路径：`rpm -ql nginx`，rpm 是linux的rpm包管理工具，-q 代表询问模式，-l 代表返回列表，这样我们就可以找到nginx的所有安装位置了。
+
+启动 nginx： 
+- 在 CentOS7.4 以上，直接使用 `nginx` 即可启动 nginx。
+- 使用 systemctl 命令启动：`systemctl start nginx.service`
+
+查询与 nginx  有关的服务：`ps aux | grep nginx`
+
+停止 nginx 服务：
+- 立即停止服务：`nginx -s stop`
+- 从容停止服务：`nginx -s quit`
+- 直接 kill 掉进程：`killall nginx`
+- systemctl 停止：`systemctl stop nginx.service`
+
+重启 nginx 服务：`nginx -s reload`
+
+查看端口号：`netstat -tlnp`
